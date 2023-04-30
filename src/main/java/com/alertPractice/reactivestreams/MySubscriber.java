@@ -1,18 +1,31 @@
 package com.alertPractice.reactivestreams;
 
 
+import lombok.RequiredArgsConstructor;
 import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
 
 public class MySubscriber implements Subscriber {
-    @Override
-    public void onSubscribe(Subscription s) {
 
+    private Subscription subscription;
+    private int bufferSize = 2;
+
+    @Override
+    public void onSubscribe(Subscription subscription) {
+        this.subscription = subscription;
+        System.out.println("Subscriber: 구독 정보를 받았습니다. 앞으로 " + bufferSize + "개씩 주세요.");
+        subscription.request(bufferSize); //한번에 받을 request 수량
     }
 
     @Override
     public void onNext(Object o) {
-        System.out.println("구독 데이터 전달");
+        System.out.println("onNext(): "+ o);
+        bufferSize--;
+        if(bufferSize == 0) {
+            System.out.println("=== 기준점 ===");
+            bufferSize = 2;
+            subscription.request(bufferSize);
+        }
     }
 
     @Override

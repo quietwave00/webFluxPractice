@@ -4,6 +4,7 @@ import org.reactivestreams.Publisher;
 import org.reactivestreams.Subscriber;
 
 import java.util.Arrays;
+import java.util.Iterator;
 
 public class MyPublisher implements Publisher<Integer> {
 
